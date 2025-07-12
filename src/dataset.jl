@@ -4,7 +4,7 @@ struct TbDataset{ST<:AbstractString, DT<:TimeType}
     doi   :: ST
     start :: DT
     stop  :: DT
-    path :: ST
+    path  :: ST
     hroot :: ST
     fpref :: ST
     fsuff :: ST
@@ -13,18 +13,14 @@ end
 function TbDataset(
     ST = String,
     DT = Date;
-    start :: TimeType = Date(2000,6),
-    stop  :: TimeType = Dates.now() - Day(2),
+    start :: TimeType = Date(1998),
+    stop  :: TimeType = Dates.now() - Day(3),
     path  :: AbstractString = homedir(),
 )
 
-    @info "$(modulelog()) - Setting up data structure containing information on Early IMERG Daily data to be downloaded"
+    @info "$(modulelog()) - Setting up data structure containing information on NASA Brightness Temperature data to be downloaded"
 
-    fol = joinpath(path,"imergearlydy"); if !isdir(fol); mkpath(fol) end
-    fol = joinpath(path,"imergmask");    if !isdir(fol); mkpath(fol) end
-
-    start = Date(year(start),month(start),1)
-    stop  = Date(year(stop),month(stop),daysinmonth(stop))
+    fol = joinpath(path,"tb"); if !isdir(fol); mkpath(fol) end
     checkdates(start,stop)
 
     return TbDataset{ST,DT}(

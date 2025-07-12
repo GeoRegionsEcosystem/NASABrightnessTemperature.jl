@@ -5,9 +5,9 @@ yr2str(date::TimeType)   = Dates.format(date,dateformat"yyyy")
 ymd2str(date::TimeType)  = Dates.format(date,dateformat"yyyymmdd")
 
 function btdlonlat()
-    lon = convert(Array,-179.95:0.1:179.95)
-    lat = convert(Array,-89.95:0.1:89.95)
-    return lon,lat
+    lon = convert(Array,range(-180,180,length=9897))
+    lat = convert(Array,range(-60,60,length=3299))
+    return (lon[1:(end-1)] .+ lon[2:end])./2, (lat[1:(end-1)] .+ lat[2:end])./2
 end
 
 function checkdates(
@@ -15,54 +15,13 @@ function checkdates(
     dtend :: TimeType
 )
 
-    if dtbeg < Date(2000,6,1)
-        error("$(modulelog()) - You have specified a date that is before the earliest available date of GPM IMERG data, 2000-06-01.")
+    if dtbeg < Date(1998,1,1)
+        error("$(modulelog()) - You have specified a date that is before the earliest available date of the NASA MERG Brightness Temperature, 1998-01-01.")
     end
 
     if dtend > (Dates.now() - Day(3))
-        error("$(modulelog()) - You have specified a date that is later than the latest available date of GPM IMERG Near-Realtime data, $(now() - Day(3)).")
+        error("$(modulelog()) - You have specified a date that is later than the latest available date of the NASA MERG Brightness Temperature, $(now() - Day(3)).")
     end
-
-end
-
-function ncoffsetscale(data::AbstractArray{<:Real})
-
-    init = data[findfirst(!isnan,data)]
-    dmax = init
-    dmin = init
-    for ii in eachindex(data)
-        dataii = data[ii]
-        if !isnan(dataii)
-            if dataii > dmax; dmax = dataii end
-            if dataii < dmin; dmin = dataii end
-        end
-    end
-
-    scale = (dmax-dmin) / 65533;
-    offset = (dmax+dmin-scale) / 2;
-
-    return scale,offset
-
-end
-
-function real2int16!(
-    outarray :: AbstractArray{Int16},
-    inarray  :: AbstractArray{<:Real},
-    scale    :: Real,
-    offset   :: Real
-)
-
-    for ii in eachindex(inarray)
-
-        idata = (inarray[ii] - offset) / scale
-        if isnan(idata)
-              outarray[ii] = -32767
-        else; outarray[ii] = round(Int16,idata)
-        end
-
-    end
-
-    return
 
 end
 

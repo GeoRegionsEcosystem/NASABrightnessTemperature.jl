@@ -1,12 +1,17 @@
 module NASABrightnessTemperature
 
-## Modules Used
+## Base Modules Used
 using Logging
-using NetRC
 using Printf
 using Statistics
 
+## Modules Used
+using NetRC
+using RegionGrids
+
 import Base: download, show, read
+import GeoRegions: in
+import RegionGrids: extract
 
 ## Reexporting exported functions within these modules
 using Reexport
@@ -16,6 +21,8 @@ using Reexport
 
 ## Exporting the following functions:
 export
+        TbDataset,
+        
         download, read, setup, extract, smoothing
 
 
@@ -33,8 +40,8 @@ include("dataset.jl")
 include("download.jl")
 include("save.jl")
 include("read.jl")
-include("extract.jl")
-include("smoothing.jl")
+# include("extract.jl")
+# include("smoothing.jl")
 include("filesystem.jl")
 include("backend.jl")
 end

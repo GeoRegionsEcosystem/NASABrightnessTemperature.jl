@@ -25,25 +25,20 @@ function download(
 	@info "$(modulelog()) - Downloading $(btd.name) data for the $(geo.name) GeoRegion from $(btd.start) to $(btd.stop)"
 
 	lon,lat = btdlonlat(); nlon = length(lon)
-	ginfo = RegionGrid(geo,lon,lat)
+	ggrd = RegionGrid(geo,lon,lat)
 
 	@info "$(modulelog()) - Preallocating temporary arrays for extraction of $(btd.name) data for the $(geo.name) GeoRegion from the original gridded dataset"
-	glon = ginfo.lon; nglon = length(glon); iglon = ginfo.ilon
-	glat = ginfo.lat; nglat = length(glat); iglat = ginfo.ilat
-	tmp0 = zeros(Float32,nglat,nglon)
+	glon = ggrd.lon; nglon = length(glon); iglon = ggrd.ilon
+	glat = ggrd.lat; nglat = length(glat); iglat = ggrd.ilat
+	tmp0 = zeros(Float32,nglon,nglat,2)
 	var  = zeros(Float32,nglon,nglat,48)
-
-	if typeof(geo) <: PolyRegion
-		  msk = ginfo.mask
-	else; msk = ones(nglon,nglat)
-	end
 
 	if iglon[1] > iglon[end]
 		shift = true
 		iglon1 = iglon[1] : nlon; niglon1 = length(iglon1)
 		iglon2 = 1 : iglon[end];  niglon2 = length(iglon2)
-		tmp1 = @view tmp0[:,1:niglon1]
-		tmp2 = @view tmp0[:,niglon1.+(1:niglon2)]
+		tmp1 = @view tmp0[1:niglon1,:,:]
+		tmp2 = @view tmp0[niglon1.+(1:niglon2),:,:]
 		@info "Temporary array sizes: $(size(tmp1)), $(size(tmp2))"
 	else
 		shift = false
@@ -56,8 +51,6 @@ function download(
 		iglat = iglat[1] : iglat[end]
 	end
 
-	if btd.v6; varID = "precipitationCal"; else; varID = "precipitation" end
-
 	for dt in btd.start : Day(1) : btd.stop
 
 		fnc = btdfnc(btd,geo,dt)
@@ -68,11 +61,11 @@ function download(
 			ymdfnc = Dates.format(dt,dateformat"yyyymmdd")
 			btddir = joinpath(btd.hroot,"$(year(dt))",@sprintf("%03d",dayofyear(dt)))
 			
-			for it = 1 : 48
+			for it = 1 : 24
 
 				@debug "$(modulelog()) - Loading data into temporary array for timestep $(dyfnc[it])"
 
-				btdfnc = "$(btd.fpref).$ymdfnc-$(dyfnc[it]).$(btd.fsuff)"
+				btdfnc = "$(btd.fpref)_$ymdfnc$(@sprintf("%02d",it-1))_$(btd.fsuff)"
 
 				tryretrieve = 0
 				ds = 0
@@ -85,25 +78,27 @@ function download(
 				end
 				
 				if !shift
-					NCDatasets.load!(ds[varID].var,tmp0,iglat,iglon,1)
+					NCDatasets.load!(ds["Tb"].var,tmp0,iglon,iglat,:)
 				else
-					NCDatasets.load!(ds[varID].var,tmp1,iglat,iglon1,1)
-					NCDatasets.load!(ds[varID].var,tmp2,iglat,iglon2,1)
+					NCDatasets.load!(ds["Tb"].var,tmp1,iglon1,iglat,:)
+					NCDatasets.load!(ds["Tb"].var,tmp2,iglon2,iglat,:)
 				end
 				close(ds)
 
 				@debug "$(modulelog()) - Extraction of data from temporary array for the $(geo.name) GeoRegion"
-				for ilat = 1 : nglat, ilon = 1 : nglon
-					varii = tmp0[ilat,ilon]
-					mskii = msk[ilon,ilat]
-					if (varii != -9999.9f0) && !isnan(mskii)
-						var[ilon,ilat,it] = varii / 3600
-					else; var[ilon,ilat,it] = NaN32
+				for ihr = 1 : 2
+					ii = (it-1)*2+ihr
+					for ilat = 1 : nglat, ilon = 1 : nglon
+						varii = tmp0[ilon,ilat,ihr]
+						if (varii != -9999.0f0) && !isnan(ggrd.mask[ilon,ilat])
+							  var[ilon,ilat,ii] = varii
+						else; var[ilon,ilat,ii] = NaN32
+						end
 					end
 				end
 			end
 
-			save(var,dt,btd,geo,ginfo)
+			save(var,dt,btd,geo,ggrd)
 
 		else
 
