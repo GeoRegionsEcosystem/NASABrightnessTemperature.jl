@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Getting Started
-      link: /georegions
-    - theme: alt
-      text: Basics
       link: /basics
+    - theme: alt
+      text: Datasets
+      link: /datasets
     - theme: alt
       text: Tutorials
       link: /tutorials
