@@ -17,40 +17,19 @@ makedocs(;
         repo = "https://github.com/GeoRegionsEcosystem/NASAMergedTb.jl",
     ),
     pages=[
-        "Home"                 => "index.md"
-        # "What is a GeoRegion?" => "georegions.md",
-        # "Basics"               => [
-        #     "Load/Read a GeoRegion"     => "basics/read.md",
-        #     "Creating a GeoRegion"      => "basics/create.md",
-        #     "Shape of a GeoRegion"      => "basics/shape.md",
-        #     "List Available GeoRegions" => "basics/tables.md",
-        #     "Predefined GeoRegions"     => [
-        #         "Predefined Datasets" => "basics/predefined/datasets.md",
-        #         "List All GeoRegions" => "basics/predefined/listall.md",
-        #     ],
+        "Home"        => "index.md",
+        "The Basics"  => "basics.md",
+        # "Tutorials"  => [
+        #     "Downloading Datasets"        => "tutorials/download.md",
+        #     "Integration with LandSea.jl" => "tutorials/landsea.md",
+        #     "Extraction of subGeoRegions" => "tutorials/extract.md",
+        #     "Spatialtemporal Smoothing"   => "tutorials/smoothing.md",
         # ],
-        # "Tutorials"            => [
-        #     "Using GeoRegions.jl"          => [
-        #         "Is it in a GeoRegion?"        => "tutorials/using/isin.md",
-        #         "Is it on a GeoRegion?"        => "tutorials/using/ison.md",
-        #         "Equivalence in GeoRegions.jl" => "tutorials/using/isequal.md",
-        #         "Derotation of Coordinates"    => "tutorials/using/derotate.md",
-        #     ],
-        #     "GeoRegions.jl for Projects"   => [
-        #         "Setting Up"        => "tutorials/projects/setup.md",
-        #         "Add, Read, Remove" => "tutorials/projects/addreadrm.md",
-        #         "Backends"          => "tutorials/projects/backends.md",
-        #     ],
+        # "API"       => [
+        #     "IMERG Datasets" => "api/imerg.md",
+        #     "TRMM Datasets"  => "api/trmm.md",
+        #     "Dummy Datasets" => "api/dummy.md",
         # ],
-        # "API"                  => [
-        #     "Create, Add, Read, Remove" => "api/createaddreadrm.md",
-        #     "Project Setup"             => "api/project.md",
-        #     "Tables"                    => "api/tables.md",
-        #     "Shape / Coordinates"       => "api/shape.md",
-        #     "Derotate"                  => "api/derotation.md",
-        #     "Is In/On/Equal?"           => "api/isinonequal.md",
-        # ],
-        # "Ecosystem"            => "ecosystem.md",
     ],
 )
 

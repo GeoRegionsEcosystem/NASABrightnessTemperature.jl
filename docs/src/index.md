@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "NASAMergedTb.jl"
-  text: "Gridded Brightness Temperature for Clouds"
+  text: "Gridded Brightness Temperature to Understand Clouds"
   tagline: Handling NASA's NCEP/CPC Level 3 Merged Infrared Brightness Temperature Dataset in Julia
   image:
     src: /logo.png
@@ -13,9 +13,6 @@ hero:
     - theme: brand
       text: Getting Started
       link: /basics
-    - theme: alt
-      text: Datasets
-      link: /datasets
     - theme: alt
       text: Tutorials
       link: /tutorials
