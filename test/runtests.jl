@@ -1,4 +1,4 @@
-using NASABrightnessTemperature
+using NASAMergedTb
 using Test
 
 @testset "NASABrightnessTemperature.jl" begin

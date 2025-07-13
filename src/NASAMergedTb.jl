@@ -1,4 +1,4 @@
-module NASABrightnessTemperature
+module NASAMergedTb
 
 ## Base Modules Used
 using Logging
@@ -26,7 +26,7 @@ export
         download, read, setup, extract, smoothing
 
 
-modulelog() = "$(now()) - NASABrightnessTemperature.jl"
+modulelog() = "$(now()) - NASAMergedTb.jl"
 
 function __init__()
     setup()

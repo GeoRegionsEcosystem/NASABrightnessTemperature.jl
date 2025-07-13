@@ -45,6 +45,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using NASABrightnessTemperature
-          DocMeta.setdocmeta!(NASABrightnessTemperature, :DocTestSetup, :(using NASABrightnessTemperature); recursive=true)
-          doctest(NASABrightnessTemperature)
+          using NASAMergedTb
+          DocMeta.setdocmeta!(NASAMergedTb, :DocTestSetup, :(using NASAMergedTb); recursive=true)
+          doctest(NASAMergedTb)
