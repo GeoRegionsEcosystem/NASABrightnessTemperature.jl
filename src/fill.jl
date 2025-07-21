@@ -27,7 +27,7 @@ function fill(
 	glon = ggrd.lon; nglon = length(glon);
 	glat = ggrd.lat; nglat = length(glat);
 	var  = zeros(Float32,nglon,nglat,48)
-	vari = zeros(Float32,nglon,nglat,48) * NaN
+	vari = zeros(Float32,nglon,nglat,48) * NaN32
 	mask = ones(Float32,nglon,nglat,48)
 
 	for dt in btd.start : Day(1) : btd.stop
