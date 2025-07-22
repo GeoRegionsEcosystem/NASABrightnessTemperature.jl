@@ -21,7 +21,7 @@ using Reexport
 
 ## Exporting the following functions:
 export
-        TbDataset,
+        TbDataset, SDDataset,
         
         download, read, setup, extract, smoothing
 
@@ -34,9 +34,10 @@ end
 
 ## Including Relevant Files
 
-include("setup.jl")
+include("datasets/brighttemperature.jl")
+include("datasets/shallowdeep.jl")
 
-include("dataset.jl")
+include("setup.jl")
 include("download.jl")
 include("save.jl")
 include("read.jl")

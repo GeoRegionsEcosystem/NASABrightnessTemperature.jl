@@ -12,7 +12,6 @@ The `TbDataset` Type contains the following fields:
 * `fpref` : The prefix component of the NetCDF files to be downloaded
 * `fsuff` : The suffix component of the NetCDF files to be downloaded
 """
-
 struct TbDataset{ST<:AbstractString, DT<:TimeType}
     ID    :: ST
     name  :: ST
