@@ -58,3 +58,19 @@ function btdsmth(
     return joinpath(fol,fnc)
 
 end
+
+####
+
+function ssdfnc(
+    ssd :: SDDataset{ST,DT},
+	geo :: GeoRegion,
+    dt  :: TimeType
+) where {ST<:AbstractString, DT<:TimeType}
+
+    fol = joinpath(ssd.path,geo.ID,yrmo2dir(dt))
+    fnc = ssd.ID * "-" * geo.ID * "-" * 
+          sdd.shallow * "K-" * sdd.deep * "K-" *
+          ymd2str(dt) * ".nc"
+    return joinpath(fol,fnc)
+
+end

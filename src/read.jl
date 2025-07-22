@@ -67,3 +67,37 @@ function read(
     return NCDataset(bnc)
 
 end
+
+function read(
+	sdd :: SDDataset,
+	geo :: GeoRegion,
+    dt  :: TimeType;
+    smooth   :: Bool = false,
+    smoothlon  :: Real = 0,
+    smoothlat  :: Real = 0,
+    smoothtime :: Real = 0,
+    quiet  :: Bool = false
+)
+
+    cnc = sddfnc(btd,geo,dt)
+
+    raw = true
+
+    if quiet
+        disable_logging(Logging.Warn)
+    end
+
+    if !isfile(cnc)
+        error("$(modulelog()) - The $(sdd.name) Dataset for the $(geo.ID) GeoRegion at Date $dt does not exist at $(cnc).  Check if files exist at $(sdd.datapath) or download the files here")
+    end
+    @info "$(modulelog()) - Opening the $(sdd.name) NCDataset in the $(geo.ID) GeoRegion for $dt"
+
+    if quiet
+        disable_logging(Logging.Debug)
+    end
+
+    flush(stderr)
+    
+    return NCDataset(cnc)
+
+end
