@@ -27,6 +27,8 @@ export
 
 
 modulelog() = "$(now()) - NASAMergedTb.jl"
+geopath = joinpath(@__DIR__,".georegions")
+mergIRpath(path) = splitpath(path)[end] !== "mergedIR" ? joinpath(path,"mergedIR") : path
 
 function __init__()
     setup()
@@ -39,6 +41,8 @@ include("datasets/shallowdeep.jl")
 
 include("setup.jl")
 include("download.jl")
+include("classify.jl")
+
 include("save.jl")
 include("read.jl")
 # include("extract.jl")

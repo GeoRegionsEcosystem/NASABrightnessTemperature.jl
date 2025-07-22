@@ -18,9 +18,11 @@ Keyword Arguments
 """
 function download(
 	btd :: TbDataset{ST,DT},
-	geo :: GeoRegion = GeoRegion("GLB");
+	geo :: GeoRegion = GeoRegion("NASATB",path=geopath);
 	overwrite :: Bool = false
 ) where {ST<:AbstractString, DT<:TimeType}
+
+	geo.ID == "NASATB" ? in(geo,GeoRegion("NASATB",path=geopath)) : nothing
 
 	@info "$(modulelog()) - Downloading $(btd.name) data for the $(geo.name) GeoRegion from $(btd.start) to $(btd.stop)"
 
