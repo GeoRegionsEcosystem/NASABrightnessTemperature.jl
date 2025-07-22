@@ -59,13 +59,12 @@ function TbDataset(
 
     @info "$(modulelog()) - Setting up data structure containing information on NASA Brightness Temperature data to be downloaded"
 
-    fol = joinpath(path,"tb"); if !isdir(fol); mkpath(fol) end
+    fol = mergIRpath(path); if !isdir(fol); mkpath(fol) end
     checkdates(start,stop)
 
     return TbDataset{ST,DT}(
-		"tb", "Brightness Temperature", "10.5067/P4HZB9N27EKU",
-        start, stop,
-		joinpath(path,"tb"),
+		"Tb", "Brightness Temperature", "10.5067/P4HZB9N27EKU",
+        start, stop, fol,
         "https://disc2.gesdisc.eosdis.nasa.gov/opendap/MERGED_IR/GPM_MERGIR.1",
         "merg", "4km-pixel.nc4",
     )
