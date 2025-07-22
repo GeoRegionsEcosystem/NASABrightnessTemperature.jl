@@ -114,7 +114,7 @@ function download(
 				end
 			end
 
-			save(var,dt,btd,geo,ggrd,mask)
+			save(var,mask,dt,btd,geo,ggrd)
 
 		else
 

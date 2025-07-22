@@ -1,10 +1,10 @@
 function save(
 	var  :: AbstractArray{Float32,3},
+	mask :: AbstractArray{Float32,3},
 	dt   :: TimeType,
 	btd  :: TbDataset,
 	geo  :: GeoRegion,
-	ggrd :: RegionGrid,
-	mask :: AbstractArray{Float32,3};
+	ggrd :: RegionGrid;
     smooth     :: Bool = false,
     smoothlon  :: Real = 0,
     smoothlat  :: Real = 0,
